@@ -29,6 +29,23 @@ import { SiPython, SiFigma } from 'react-icons/si';
 function Header() {
     const [activeSection, setActiveSection] = useState('home');
     const [menuOpen, setMenuOpen] = useState(false);
+    const [darkMode, setDarkMode] = useState(() => {
+        // Check localStorage for saved preference, default to dark
+        const saved = localStorage.getItem('darkMode');
+        return saved !== null ? JSON.parse(saved) : true;
+    });
+
+    // Apply theme to body and save preference
+    useEffect(() => {
+        localStorage.setItem('darkMode', JSON.stringify(darkMode));
+        if (darkMode) {
+            document.body.classList.add('dark-mode');
+            document.body.classList.remove('light-mode');
+        } else {
+            document.body.classList.add('light-mode');
+            document.body.classList.remove('dark-mode');
+        }
+    }, [darkMode]);
 
     // Scroll to section function
     const scrollToSection = (sectionId) => {
@@ -79,7 +96,7 @@ function Header() {
     return (
         <div className="body">
             <Component
-                color="rgba(255, 255, 255, 0.2)"
+                color={darkMode ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.1)"}
                 animation={{ scale: 80, speed: 60 }}
                 noise={{ opacity: 0.6, scale: 1 }}
                 sizing="fill"
@@ -116,48 +133,78 @@ function Header() {
                     </button>
                 </div>
 
-                {/* Desktop Navigation */}
-                <ul className="nav desktop-nav">
-                    <li 
-                        className={activeSection === 'home' ? 'active' : ''} 
-                        onClick={() => scrollToSection('home')}
+                {/* Desktop Navigation with Theme Toggle */}
+                <div className="desktop-nav-container">
+                    <ul className="nav desktop-nav">
+                        <li 
+                            className={activeSection === 'home' ? 'active' : ''} 
+                            onClick={() => scrollToSection('home')}
+                        >
+                            Home
+                        </li>
+                        <li 
+                            className={activeSection === 'about' ? 'active' : ''} 
+                            onClick={() => scrollToSection('about')}
+                        >
+                            About
+                        </li>
+                        <li 
+                            className={activeSection === 'services' ? 'active' : ''} 
+                            onClick={() => scrollToSection('services')}
+                        >
+                            Services
+                        </li>
+                        <li 
+                            className={activeSection === 'skills' ? 'active' : ''} 
+                            onClick={() => scrollToSection('skills')}
+                        >
+                            Skills
+                        </li>
+                        <li 
+                            className={activeSection === 'projects' ? 'active' : ''} 
+                            onClick={() => scrollToSection('projects')}
+                        >
+                            Projects
+                        </li>
+                        <li 
+                            className={activeSection === 'contact' ? 'active' : ''} 
+                            onClick={() => scrollToSection('contact')}
+                        >
+                            Contact
+                        </li>
+                    </ul>
+                    
+                    {/* Theme Toggle Button - Desktop */}
+                    <button 
+                        className="theme-toggle desktop-toggle"
+                        onClick={() => setDarkMode(!darkMode)}
+                        aria-label="Toggle theme"
                     >
-                        Home
-                    </li>
-                    <li 
-                        className={activeSection === 'about' ? 'active' : ''} 
-                        onClick={() => scrollToSection('about')}
-                    >
-                        About
-                    </li>
-                    <li 
-                        className={activeSection === 'services' ? 'active' : ''} 
-                        onClick={() => scrollToSection('services')}
-                    >
-                        Services
-                    </li>
-                    <li 
-                        className={activeSection === 'skills' ? 'active' : ''} 
-                        onClick={() => scrollToSection('skills')}
-                    >
-                        Skills
-                    </li>
-                    <li 
-                        className={activeSection === 'projects' ? 'active' : ''} 
-                        onClick={() => scrollToSection('projects')}
-                    >
-                        Projects
-                    </li>
-                    <li 
-                        className={activeSection === 'contact' ? 'active' : ''} 
-                        onClick={() => scrollToSection('contact')}
-                    >
-                        Contact
-                    </li>
-                </ul>
+                        <div className={`toggle-track ${darkMode ? 'dark' : 'light'}`}>
+                            <div className="toggle-thumb">
+                                {darkMode ? '🌙' : '☀️'}
+                            </div>
+                        </div>
+                    </button>
+                </div>
 
                 {/* Mobile Menu Drawer */}
                 <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
+                    {/* Theme Toggle - Mobile (at top of menu) */}
+                    <div className="mobile-theme-toggle-wrapper">
+                        <button 
+                            className="theme-toggle mobile-toggle"
+                            onClick={() => setDarkMode(!darkMode)}
+                            aria-label="Toggle theme"
+                        >
+                            <div className={`toggle-track ${darkMode ? 'dark' : 'light'}`}>
+                                <div className="toggle-thumb">
+                                    {darkMode ? '🌙' : '☀️'}
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+
                     <ul className="nav mobile-nav">
                         <li 
                             className={activeSection === 'home' ? 'active' : ''} 
@@ -249,7 +296,7 @@ function Section1() {
                         <StarBorder 
                             as="button" 
                             className="btn" 
-                            color="#e6ff02ff" 
+                            color="#ffffffff" 
                             speed="5s"
                             onClick={() => {
                                 const element = document.getElementById('contact');
@@ -263,7 +310,7 @@ function Section1() {
                         <StarBorder 
                             as="button" 
                             className="btn1" 
-                            color="#e6ff02ff" 
+                            color="#ffffffff" 
                             speed="5s"
                             onClick={() => {
                                 const element = document.getElementById('projects');
