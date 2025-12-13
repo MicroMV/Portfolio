@@ -28,6 +28,7 @@ import { SiPython, SiFigma } from 'react-icons/si';
 
 function Header() {
     const [activeSection, setActiveSection] = useState('home');
+    const [menuOpen, setMenuOpen] = useState(false);
 
     // Scroll to section function
     const scrollToSection = (sectionId) => {
@@ -35,6 +36,7 @@ function Header() {
         if (element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
             setActiveSection(sectionId);
+            setMenuOpen(false); 
         }
     };
 
@@ -74,7 +76,6 @@ function Header() {
         };
     }, []);
 
-
     return (
         <div className="body">
             <Component
@@ -102,7 +103,21 @@ function Header() {
                     <h1 className="title">rngx.dev</h1>
                 </div>
 
-                <ul className="nav">
+                {/* Hamburger Icon - Mobile Only */}
+                <div className="hamburger-container">
+                    <button 
+                        className={`hamburger ${menuOpen ? 'active' : ''}`}
+                        onClick={() => setMenuOpen(!menuOpen)}
+                        aria-label="Toggle menu"
+                    >
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+
+                {/* Desktop Navigation */}
+                <ul className="nav desktop-nav">
                     <li 
                         className={activeSection === 'home' ? 'active' : ''} 
                         onClick={() => scrollToSection('home')}
@@ -118,10 +133,9 @@ function Header() {
                     <li 
                         className={activeSection === 'services' ? 'active' : ''} 
                         onClick={() => scrollToSection('services')}
-                      >
+                    >
                         Services
                     </li>
-
                     <li 
                         className={activeSection === 'skills' ? 'active' : ''} 
                         onClick={() => scrollToSection('skills')}
@@ -141,6 +155,56 @@ function Header() {
                         Contact
                     </li>
                 </ul>
+
+                {/* Mobile Menu Drawer */}
+                <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
+                    <ul className="nav mobile-nav">
+                        <li 
+                            className={activeSection === 'home' ? 'active' : ''} 
+                            onClick={() => scrollToSection('home')}
+                        >
+                            Home
+                        </li>
+                        <li 
+                            className={activeSection === 'about' ? 'active' : ''} 
+                            onClick={() => scrollToSection('about')}
+                        >
+                            About
+                        </li>
+                        <li 
+                            className={activeSection === 'services' ? 'active' : ''} 
+                            onClick={() => scrollToSection('services')}
+                        >
+                            Services
+                        </li>
+                        <li 
+                            className={activeSection === 'skills' ? 'active' : ''} 
+                            onClick={() => scrollToSection('skills')}
+                        >
+                            Skills
+                        </li>
+                        <li 
+                            className={activeSection === 'projects' ? 'active' : ''} 
+                            onClick={() => scrollToSection('projects')}
+                        >
+                            Projects
+                        </li>
+                        <li 
+                            className={activeSection === 'contact' ? 'active' : ''} 
+                            onClick={() => scrollToSection('contact')}
+                        >
+                            Contact
+                        </li>
+                    </ul>
+                </div>
+
+                {/* Backdrop Overlay */}
+                {menuOpen && (
+                    <div 
+                        className="menu-backdrop" 
+                        onClick={() => setMenuOpen(false)}
+                    ></div>
+                )}
             </div>
 
             <Section1 />
@@ -217,6 +281,8 @@ function Section1() {
                             href="https://github.com/MicroMV" 
                             target="_blank" 
                             rel="noopener noreferrer"
+                            aria-label="Visit my GitHub profile"
+                            title="GitHub"
                         >
                             <FaGithub className="social-icon" />
                         </a>
@@ -224,6 +290,8 @@ function Section1() {
                             href="https://www.linkedin.com/in/rongie-murallos-b9a816392?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" 
                             target="_blank" 
                             rel="noopener noreferrer"
+                            aria-label="Visit my LinkedIn profile"
+                            title="LinkedIn"
                         >
                             <FaLinkedin className="social-icon" />
                         </a>
@@ -231,6 +299,8 @@ function Section1() {
                             href="https://web.facebook.com/gieron.hubilla" 
                             target="_blank" 
                             rel="noopener noreferrer"
+                            aria-label="Visit my Facebook profile"
+                            title="Facebook"
                         >
                             <FaFacebook className="social-icon" />
                         </a>
@@ -614,6 +684,7 @@ function Projects() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
+
               {project.image && (
                 <div className="project-image-container">
                   <img 
