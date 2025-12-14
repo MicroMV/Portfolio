@@ -671,7 +671,7 @@ function Projects() {
         </>
       ),
       technologies: ["React", "CSS"],
-      liveLink: "https://repo-1aht0czzx-rongies-projects.vercel.app/",
+      liveLink: "https://repo-plum-eta.vercel.app/",
       githubLink: "https://github.com/MicroMV/ReactProject-2025.git",
       image: "/mosang.png"
     },
