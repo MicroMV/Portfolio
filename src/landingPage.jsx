@@ -355,7 +355,7 @@ function Section1() {
                 </div>
 
                 <div className="profile-pic-container">
-                    <img src="profile.jpg" alt="Rongie H. Murallos" className="profile-pic" />
+                    <img src="rongie.png" alt="Rongie H. Murallos" className="profile-pic" />
                 </div>
             </div>
         </section>
